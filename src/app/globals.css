@@ -127,3 +127,30 @@
     @apply font-sans;
   }
 }
+
+html.has-scroll-smooth {
+  overflow: hidden;
+}
+
+html.has-scroll-dragging {
+  user-select: none;
+}
+
+[data-scroll-container] {
+  min-height: 100vh;
+}
+
+[data-scroll] {
+  will-change: transform;
+}
+
+.is-revealed {
+  opacity: 1;
+  transform: none !important;
+}
+
+@supports (scroll-behavior: smooth) {
+  html:not(.has-scroll-smooth) {
+    scroll-behavior: smooth;
+  }
+}
