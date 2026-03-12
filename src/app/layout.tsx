@@ -1,18 +1,11 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Inter } from "next/font/google";
+import { Chivo } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 
-const inter = Inter({subsets:['latin'],variable:'--font-sans'});
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const chivo = Chivo({
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  variable: "--font-chivo",
 });
 
 export const metadata: Metadata = {
@@ -26,10 +19,44 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={cn("font-sans", inter.variable)}>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+    <html lang="en" className={cn("font-sans", chivo.variable)}>
+      <body className={`${chivo.className} antialiased`}>
+        <nav className="fixed top-10 left-4 right-4 md:left-1/2 md:right-auto md:-translate-x-1/2 z-50 bg-white/80 backdrop-blur-md px-4 md:px-8 py-3 md:py-4 rounded-full shadow-lg md:w-[calc(100%-4rem)] md:max-w-6xl">
+          <div className="flex items-center justify-between">
+            <button className="text-sm font-medium text-gray-800 hover:text-blue-600 transition-colors min-w-[60px] md:min-w-[80px]">
+              Logo
+            </button>
+            <ul className="hidden md:flex items-center gap-6 lg:gap-8">
+              <li>
+                <a
+                  href="/"
+                  className="text-sm font-medium text-gray-800 hover:text-blue-600 transition-colors"
+                >
+                  Home
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/about"
+                  className="text-sm font-medium text-gray-800 hover:text-blue-600 transition-colors"
+                >
+                  About
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/contact"
+                  className="text-sm font-medium text-gray-800 hover:text-blue-600 transition-colors"
+                >
+                  Contact
+                </a>
+              </li>
+            </ul>
+            <button className="text-sm font-medium bg-blue-600 text-white px-3 md:px-4 py-2 rounded-full hover:bg-blue-700 transition-colors min-w-[60px] md:min-w-[80px]">
+              Sign Up
+            </button>
+          </div>
+        </nav>
         {children}
       </body>
     </html>
