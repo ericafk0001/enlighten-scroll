@@ -24,7 +24,7 @@ export default function RootLayout({
         <nav className="fixed top-10 left-4 right-4 md:left-1/2 md:right-auto md:-translate-x-1/2 z-50 bg-white/80 backdrop-blur-md px-4 md:px-8 py-3 md:py-4 rounded-full shadow-lg md:w-[calc(100%-4rem)] md:max-w-6xl">
           <div className="flex items-center justify-between">
             <button className="text-sm font-medium text-gray-800 hover:text-blue-600 transition-colors min-w-[60px] md:min-w-[80px]">
-              Logo
+              Enlighten
             </button>
             <ul className="hidden md:flex items-center gap-6 lg:gap-8">
               <li>
@@ -32,7 +32,7 @@ export default function RootLayout({
                   href="/"
                   className="text-sm font-medium text-gray-800 hover:text-blue-600 transition-colors"
                 >
-                  Home
+                  Feed
                 </a>
               </li>
               <li>
@@ -40,7 +40,7 @@ export default function RootLayout({
                   href="/about"
                   className="text-sm font-medium text-gray-800 hover:text-blue-600 transition-colors"
                 >
-                  About
+                  Lessons
                 </a>
               </li>
               <li>
@@ -48,7 +48,7 @@ export default function RootLayout({
                   href="/contact"
                   className="text-sm font-medium text-gray-800 hover:text-blue-600 transition-colors"
                 >
-                  Contact
+                  FAQ
                 </a>
               </li>
             </ul>
