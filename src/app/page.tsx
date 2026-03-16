@@ -1,6 +1,7 @@
 "use client";
 
 import { useGSAP } from "@/hooks/useGSAP";
+import { SmoothDotCursor } from "@/components/ui/SmoothDotCursor";
 import { Petit_Formal_Script } from "next/font/google";
 import Image from "next/image";
 import { useRef } from "react";
@@ -58,6 +59,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen px-4 py-4">
+      <SmoothDotCursor />
       <div
         ref={heroRef}
         className="relative overflow-hidden max-w-360 h-full min-h-[calc(100vh-2rem)] mx-auto bg-[#28b2eb] rounded-[3rem] flex flex-col items-center justify-center px-4"
