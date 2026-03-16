@@ -23,7 +23,7 @@ export default function Navbar() {
   return (
     <nav
       ref={navRef}
-      className="fixed top-9 left-10 right-10 z-50 rounded-full bg-white/80 px-4 py-3 shadow-lg backdrop-blur-md md:left-1/2 md:right-auto md:w-[calc(100%-4rem)] md:max-w-6xl md:-translate-x-1/2"
+      className="fixed inset-x-0 top-6 z-50 mx-auto w-[calc(100%-3rem)] rounded-full border border-white/45 bg-white/20 px-4 py-3 shadow-[0_10px_30px_rgba(15,23,42,0.18),inset_0_1px_0_rgba(255,255,255,0.55)] backdrop-blur-xl md:top-9 md:w-[calc(100%-4rem)] md:max-w-6xl"
     >
       <div className="flex items-center justify-between">
         <button className="flex items-center min-w-15 md:min-w-20">
@@ -40,7 +40,7 @@ export default function Navbar() {
           <li>
             <a
               href="/"
-              className="inline-flex items-center rounded-full px-5 py-2 text-[20px] font-medium text-zinc-950 transition-colors hover:bg-zinc-950/10"
+              className="inline-flex items-center rounded-full border border-transparent px-5 py-2 text-[20px] font-medium text-sky-950/90 transition-colors hover:border-white/40 hover:bg-white/25"
             >
               Feed
             </a>
@@ -48,7 +48,7 @@ export default function Navbar() {
           <li>
             <a
               href="/about"
-              className="inline-flex items-center rounded-full px-5 py-2 text-[20px] font-medium text-zinc-950 transition-colors hover:bg-zinc-950/10"
+              className="inline-flex items-center rounded-full border border-transparent px-5 py-2 text-[20px] font-medium text-sky-950/90 transition-colors hover:border-white/40 hover:bg-white/25"
             >
               Lessons
             </a>
@@ -56,13 +56,13 @@ export default function Navbar() {
           <li>
             <a
               href="/contact"
-              className="inline-flex items-center rounded-full px-5 py-2 text-[20px] font-medium text-zinc-950 transition-colors hover:bg-zinc-900/10"
+              className="inline-flex items-center rounded-full border border-transparent px-5 py-2 text-[20px] font-medium text-sky-950/90 transition-colors hover:border-white/40 hover:bg-white/25"
             >
               FAQ
             </a>
           </li>
         </ul>
-        <button className="text-[18px] font-medium bg-zinc-900 text-white px-3 md:px-4 py-2 rounded-full hover:bg-zinc-700 transition-colors min-w-15 md:min-w-20">
+        <button className="min-w-15 rounded-full border border-white/60 bg-white/65 px-3 py-2 text-[18px] font-medium text-sky-950 backdrop-blur-md transition-colors hover:bg-white/50 md:min-w-20 md:px-4">
           Sign Up
         </button>
       </div>

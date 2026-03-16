@@ -79,7 +79,7 @@ export default function Home() {
 
         <div
           ref={cloudTwoRef}
-          className="absolute top-[45%] max-[1200px]:top-[50%] max-md:top-[10%] w-500 max-md:w-400 left-1/2 z-20 -translate-x-1/2 pointer-events-none opacity-75"
+          className="absolute top-[45%] max-[1200px]:top-[50%] max-md:top-[30%] w-500 max-md:w-400 left-1/2 z-20 -translate-x-1/2 pointer-events-none opacity-75"
           aria-hidden="true"
         >
           <Image
