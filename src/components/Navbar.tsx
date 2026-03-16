@@ -40,7 +40,7 @@ export default function Navbar() {
           <li>
             <a
               href="/"
-              className="inline-flex items-center rounded-full border border-transparent px-5 py-2 text-[20px] font-medium text-sky-950/90 transition-colors hover:border-white/40 hover:bg-white/25"
+              className="inline-flex items-center rounded-full border border-transparent px-5 py-2 text-[20px] font-medium text-neutral-950/90 transition-colors hover:border-white/40 hover:bg-white/25"
             >
               Feed
             </a>
@@ -48,7 +48,7 @@ export default function Navbar() {
           <li>
             <a
               href="/about"
-              className="inline-flex items-center rounded-full border border-transparent px-5 py-2 text-[20px] font-medium text-sky-950/90 transition-colors hover:border-white/40 hover:bg-white/25"
+              className="inline-flex items-center rounded-full border border-transparent px-5 py-2 text-[20px] font-medium text-neutral-950/90 transition-colors hover:border-white/40 hover:bg-white/25"
             >
               Lessons
             </a>
@@ -56,13 +56,13 @@ export default function Navbar() {
           <li>
             <a
               href="/contact"
-              className="inline-flex items-center rounded-full border border-transparent px-5 py-2 text-[20px] font-medium text-sky-950/90 transition-colors hover:border-white/40 hover:bg-white/25"
+              className="inline-flex items-center rounded-full border border-transparent px-5 py-2 text-[20px] font-medium text-neutral-950/90 transition-colors hover:border-white/40 hover:bg-white/25"
             >
               FAQ
             </a>
           </li>
         </ul>
-        <button className="min-w-15 rounded-full border border-white/60 bg-white/65 px-3 py-2 text-[18px] font-medium text-sky-950 backdrop-blur-md transition-colors hover:bg-white/50 md:min-w-20 md:px-4">
+        <button className="min-w-15 rounded-full border border-white/60 bg-white/65 px-3 py-2 text-[18px] font-medium text-neutral-950 backdrop-blur-md transition-colors hover:bg-white/50 md:min-w-20 md:px-4">
           Sign Up
         </button>
       </div>
