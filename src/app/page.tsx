@@ -116,7 +116,7 @@ export default function Home() {
             controlled
             className="text-2xl sm:text-3xl md:text-4xl text-neutral-950 leading-snug"
           >
-            {'"So we said, why not combine the two?"'}
+            {'So we said, "why not combine the two?"'}
           </RevealText>
         </div>
       </section>
