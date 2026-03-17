@@ -22,17 +22,17 @@ export function RevealText({
   triggerEnd = "bottom 20%",
   controlled = false,
 }: RevealTextProps) {
-  const ref = useRef<HTMLElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (controlled || !ref.current) return;
+    if (controlled || !containerRef.current) return;
 
-    const spans = ref.current.querySelectorAll<HTMLSpanElement>("[data-char]");
+    const spans = containerRef.current.querySelectorAll<HTMLSpanElement>("[data-char]");
 
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
         scrollTrigger: {
-          trigger: ref.current,
+          trigger: containerRef.current,
           start: triggerStart,
           end: triggerEnd,
           scrub: 1.2,
@@ -49,7 +49,7 @@ export function RevealText({
           ease: "power2.inOut",
         },
       );
-    }, ref);
+    }, containerRef);
 
     return () => ctx.revert();
   }, [controlled]);
@@ -57,24 +57,26 @@ export function RevealText({
   const words = children.split(" ");
 
   return (
-    <Tag ref={ref} className={className} aria-label={children}>
-      {words.map((word, wi) => (
-        <span key={wi} style={{ display: "inline" }}>
-          <span style={{ display: "inline-block", whiteSpace: "nowrap" }}>
-            {Array.from(word).map((char, ci) => (
-              <span
-                key={ci}
-                data-char
-                aria-hidden="true"
-                style={{ opacity: startOpacity, display: "inline" }}
-              >
-                {char}
-              </span>
-            ))}
+    <div ref={containerRef}>
+      <Tag className={className} aria-label={children}>
+        {words.map((word, wi) => (
+          <span key={wi} style={{ display: "inline" }}>
+            <span style={{ display: "inline-block", whiteSpace: "nowrap" }}>
+              {Array.from(word).map((char, ci) => (
+                <span
+                  key={ci}
+                  data-char
+                  aria-hidden="true"
+                  style={{ opacity: startOpacity, display: "inline" }}
+                >
+                  {char}
+                </span>
+              ))}
+            </span>
+            {wi < words.length - 1 && " "}
           </span>
-          {wi < words.length - 1 && " "}
-        </span>
-      ))}
-    </Tag>
+        ))}
+      </Tag>
+    </div>
   );
 }
