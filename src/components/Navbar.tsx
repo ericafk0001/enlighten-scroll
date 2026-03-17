@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useGSAP } from "@/hooks/useGSAP";
 
 export default function Navbar() {
@@ -18,7 +19,7 @@ export default function Navbar() {
         delay: 1.5,
       },
     );
-  }, []);
+  });
 
   return (
     <nav
@@ -38,32 +39,32 @@ export default function Navbar() {
         </button>
         <ul className="hidden md:flex items-center gap-6 lg:gap-8">
           <li>
-            <a
-              href="/"
+            <Link
+              href="/#why-enlighten"
               className="inline-flex items-center rounded-full border border-transparent px-5 py-2 text-[20px] font-medium text-neutral-950/90 transition-colors hover:border-white/40 hover:bg-white/25"
             >
-              Feed
-            </a>
+              About
+            </Link>
           </li>
           <li>
-            <a
+            <Link
               href="/about"
               className="inline-flex items-center rounded-full border border-transparent px-5 py-2 text-[20px] font-medium text-neutral-950/90 transition-colors hover:border-white/40 hover:bg-white/25"
             >
               Lessons
-            </a>
+            </Link>
           </li>
           <li>
-            <a
+            <Link
               href="/contact"
               className="inline-flex items-center rounded-full border border-transparent px-5 py-2 text-[20px] font-medium text-neutral-950/90 transition-colors hover:border-white/40 hover:bg-white/25"
             >
               FAQ
-            </a>
+            </Link>
           </li>
         </ul>
         <button className="min-w-15 rounded-full border border-white/60 bg-white/65 px-3 py-2 text-[18px] font-medium text-neutral-950 backdrop-blur-md transition-colors hover:bg-white/50 md:min-w-20 md:px-4">
-          Sign Up
+          Try Now
         </button>
       </div>
     </nav>

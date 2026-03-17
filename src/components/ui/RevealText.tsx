@@ -27,7 +27,8 @@ export function RevealText({
   useEffect(() => {
     if (controlled || !containerRef.current) return;
 
-    const spans = containerRef.current.querySelectorAll<HTMLSpanElement>("[data-char]");
+    const spans =
+      containerRef.current.querySelectorAll<HTMLSpanElement>("[data-char]");
 
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
@@ -52,7 +53,7 @@ export function RevealText({
     }, containerRef);
 
     return () => ctx.revert();
-  }, [controlled]);
+  }, [controlled, startOpacity, triggerStart, triggerEnd]);
 
   const words = children.split(" ");
 

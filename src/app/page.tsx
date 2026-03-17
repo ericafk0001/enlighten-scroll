@@ -4,7 +4,6 @@ import { useGSAP, useScrollTrigger } from "@/hooks/useGSAP";
 import { SmoothDotCursor } from "@/components/ui/SmoothDotCursor";
 import { ThreeGradientBackground } from "@/components/ui/ThreeGradientBackground";
 import { RevealText } from "@/components/ui/RevealText";
-import Image from "next/image";
 import { Petit_Formal_Script } from "next/font/google";
 
 const petitFormalScript = Petit_Formal_Script({
@@ -40,30 +39,27 @@ export default function Home() {
     );
 
     return tl;
-  }, []);
+  });
 
-  const sectionRef = useScrollTrigger<HTMLElement>(
-    (element, gsap, ScrollTrigger) => {
-      const chars = element.querySelectorAll<HTMLSpanElement>("[data-char]");
-      gsap.fromTo(
-        chars,
-        { opacity: 0.12 },
-        {
-          opacity: 1,
-          duration: 0.5,
-          stagger: 0.018,
-          ease: "power2.inOut",
-          scrollTrigger: {
-            trigger: element,
-            start: "top 82%",
-            end: "center 40%",
-            scrub: 1.2,
-          },
+  const sectionRef = useScrollTrigger<HTMLElement>((element, gsap) => {
+    const chars = element.querySelectorAll<HTMLSpanElement>("[data-char]");
+    gsap.fromTo(
+      chars,
+      { opacity: 0.12 },
+      {
+        opacity: 1,
+        duration: 0.5,
+        stagger: 0.018,
+        ease: "power2.inOut",
+        scrollTrigger: {
+          trigger: element,
+          start: "top 82%",
+          end: "center 40%",
+          scrub: 1.2,
         },
-      );
-    },
-    [],
-  );
+      },
+    );
+  });
 
   return (
     <div className="min-h-screen px-4 py-4">
@@ -93,8 +89,9 @@ export default function Home() {
       </div>
 
       <section
+        id="why-enlighten"
         ref={sectionRef}
-        className="flex flex-col items-center justify-center text-center mt-4 mx-auto min-h-[50vh] w-full rounded-[3rem] bg-[#c8cfd6] px-4"
+        className="flex scroll-mt-28 flex-col items-center justify-center text-center mt-4 mx-auto min-h-[50vh] w-full rounded-[3rem] bg-[#c8cfd6] px-4"
       >
         <div className="max-w-3xl">
           <RevealText

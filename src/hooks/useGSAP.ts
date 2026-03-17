@@ -8,7 +8,6 @@ export function useGSAP<T extends HTMLElement = HTMLDivElement>(
     element: T,
     gsapInstance: typeof gsap,
   ) => gsap.core.Tween | gsap.core.Timeline | void,
-  deps: React.DependencyList = [],
 ): RefObject<T | null> {
   const elementRef = useRef<T>(null);
 
@@ -20,7 +19,7 @@ export function useGSAP<T extends HTMLElement = HTMLDivElement>(
     }, elementRef);
 
     return () => ctx.revert();
-  }, deps);
+  }, [animationFn]);
 
   return elementRef;
 }
@@ -31,7 +30,6 @@ export function useScrollTrigger<T extends HTMLElement = HTMLDivElement>(
     gsapInstance: typeof gsap,
     ScrollTriggerInstance: typeof ScrollTrigger,
   ) => gsap.core.Tween | gsap.core.Timeline | void,
-  deps: React.DependencyList = [],
 ): RefObject<T | null> {
   const elementRef = useRef<T>(null);
 
@@ -43,14 +41,13 @@ export function useScrollTrigger<T extends HTMLElement = HTMLDivElement>(
     }, elementRef);
 
     return () => ctx.revert();
-  }, deps);
+  }, [animationFn]);
 
   return elementRef;
 }
 
 export function useTimeline(
   timelineFn: (tl: gsap.core.Timeline) => void,
-  deps: React.DependencyList = [],
 ): RefObject<gsap.core.Timeline | null> {
   const timelineRef = useRef<gsap.core.Timeline | null>(null);
 
@@ -62,7 +59,7 @@ export function useTimeline(
     return () => {
       tl.kill();
     };
-  }, deps);
+  }, [timelineFn]);
 
   return timelineRef;
 }

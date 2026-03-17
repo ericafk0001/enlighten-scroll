@@ -8,7 +8,10 @@ import {
   useState,
   ReactNode,
 } from "react";
-import LocomotiveScroll from "locomotive-scroll";
+import LocomotiveScroll, {
+  type ILocomotiveScrollOptions,
+  type ILenisScrollValues,
+} from "locomotive-scroll";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -16,13 +19,8 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-interface LocomotiveScrollInstance extends LocomotiveScroll {
-  on(event: string, callback: (...args: unknown[]) => void): void;
-  off(event: string, callback: (...args: unknown[]) => void): void;
-}
-
 interface SmoothScrollContextType {
-  scroll: LocomotiveScrollInstance | null;
+  scroll: LocomotiveScroll | null;
   isReady: boolean;
 }
 
@@ -35,41 +33,38 @@ export const useLocomotiveScroll = () => useContext(SmoothScrollContext);
 
 interface SmoothScrollProviderProps {
   children: ReactNode;
-  options?: Record<string, unknown>;
+  options?: ILocomotiveScrollOptions;
 }
 
 export function SmoothScrollProvider({
   children,
   options,
 }: SmoothScrollProviderProps) {
-  const [scroll, setScroll] = useState<LocomotiveScrollInstance | null>(null);
+  const [scroll, setScroll] = useState<LocomotiveScroll | null>(null);
   const [isReady, setIsReady] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!containerRef.current) return;
 
-    const locomotiveScroll = new LocomotiveScroll({
-      el: containerRef.current,
-      smooth: true,
+    const locomotiveOptions: ILocomotiveScrollOptions = {
       ...options,
-    } as any) as LocomotiveScrollInstance;
-
-    const handleScroll = () => {
-      ScrollTrigger.update();
+      scrollCallback: (scrollValues: ILenisScrollValues) => {
+        options?.scrollCallback?.(scrollValues);
+        ScrollTrigger.update();
+      },
     };
 
-    locomotiveScroll.on("scroll", handleScroll);
+    const locomotiveScroll = new LocomotiveScroll(locomotiveOptions);
 
-    setScroll(locomotiveScroll);
-    setIsReady(true);
-
-    setTimeout(() => {
+    const readyTimer = window.setTimeout(() => {
+      setScroll(locomotiveScroll);
+      setIsReady(true);
       ScrollTrigger.refresh();
     }, 100);
 
     return () => {
-      locomotiveScroll.off("scroll", handleScroll);
+      window.clearTimeout(readyTimer);
       locomotiveScroll.destroy();
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     };
