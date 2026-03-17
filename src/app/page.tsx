@@ -4,6 +4,7 @@ import { useGSAP, useScrollTrigger } from "@/hooks/useGSAP";
 import { SmoothDotCursor } from "@/components/ui/SmoothDotCursor";
 import { ThreeGradientBackground } from "@/components/ui/ThreeGradientBackground";
 import { RevealText } from "@/components/ui/RevealText";
+import Image from "next/image";
 import { Petit_Formal_Script } from "next/font/google";
 
 const petitFormalScript = Petit_Formal_Script({
@@ -105,11 +106,17 @@ export default function Home() {
           </RevealText>
           <RevealText
             controlled
-            className="text-2xl sm:text-3xl md:text-4xl text-neutral-950 leading-snug"
+            className="text-2xl sm:text-3xl md:text-4xl text-neutral-950 leading-snug mb-24"
           >
             {
-              "The world's best ideas are locked inside long videos, dense articles, and paywalled courses. We surface them in seconds — short, sharp, and endlessly scrollable."
+              "Students are trying to learn and retain knowledge, but encounter social media doomscrolling and short-form content addiction in doing so."
             }
+          </RevealText>
+          <RevealText
+            controlled
+            className="text-2xl sm:text-3xl md:text-4xl text-neutral-950 leading-snug"
+          >
+            {'"So we said, why not combine the two?"'}
           </RevealText>
         </div>
       </section>
