@@ -79,7 +79,9 @@ export default function Home() {
       loaded += 1;
 
       const nextProgress = Math.min(100, Math.round((loaded / total) * 100));
-      setLoadProgress((current) => (nextProgress > current ? nextProgress : current));
+      setLoadProgress((current) =>
+        nextProgress > current ? nextProgress : current,
+      );
 
       if (loaded >= total) {
         window.setTimeout(() => {
@@ -95,7 +97,9 @@ export default function Home() {
         markLoaded();
       };
       window.addEventListener("load", handleWindowLoad, { once: true });
-      listeners.push(() => window.removeEventListener("load", handleWindowLoad));
+      listeners.push(() =>
+        window.removeEventListener("load", handleWindowLoad),
+      );
     }
 
     images.forEach((image) => {
@@ -427,8 +431,9 @@ export default function Home() {
         className="mt-3 sm:mt-4 mx-auto grid grid-cols-1 lg:grid-cols-[1.6fr_1fr] gap-3 sm:gap-4 md:gap-5 w-full"
       >
         <section
+          id="core-subjects"
           aria-labelledby="subjects-heading"
-          className="relative overflow-hidden rounded-[2.25rem] sm:rounded-[3rem] bg-[#d5c8e6] px-5 sm:px-8 py-8 sm:py-10 min-h-[420px] sm:min-h-[560px] lg:min-h-[670px] flex flex-col justify-start pt-6 sm:pt-8"
+          className="relative overflow-hidden scroll-mt-28 rounded-[2.25rem] sm:rounded-[3rem] bg-[#d5c8e6] px-5 sm:px-8 py-8 sm:py-10 min-h-[420px] sm:min-h-[560px] lg:min-h-[670px] flex flex-col justify-start pt-6 sm:pt-8"
         >
           <div className="relative z-10 max-w-2xl">
             <TypeInDropText
