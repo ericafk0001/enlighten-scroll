@@ -10,12 +10,12 @@ import {
   type Body as MatterBody,
 } from "matter-js";
 
-type PhysicsSkillPillsProps = {
-  skills: string[];
+type SubjectPillsProps = {
+  subjects: string[];
   className?: string;
 };
 
-type SkillBody = {
+type SubjectBody = {
   body: MatterBody;
   element: HTMLDivElement;
   renderX: number;
@@ -44,15 +44,12 @@ function getPillDimensions(text: string, isSmallScreen: boolean) {
   };
 }
 
-export function PhysicsSkillPills({
-  skills,
-  className = "",
-}: PhysicsSkillPillsProps) {
+export function SubjectPills({ subjects, className = "" }: SubjectPillsProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const container = containerRef.current;
-    if (!container || skills.length === 0) {
+    if (!container || subjects.length === 0) {
       return;
     }
 
@@ -124,22 +121,22 @@ export function PhysicsSkillPills({
       Composite.add(engine.world, walls);
 
       const isSmallScreen = window.matchMedia("(max-width: 768px)").matches;
-      const skillBodies: SkillBody[] = [];
+      const subjectBodies: SubjectBody[] = [];
 
       const columns = isSmallScreen ? 2 : 3;
       const baseXStep = width / (columns + 1);
-      const rows = Math.ceil(skills.length / columns);
+      const rows = Math.ceil(subjects.length / columns);
       const baseYStep = Math.max(66, height / (rows + 1));
 
-      skills.forEach((skill, index) => {
+      subjects.forEach((subject, index) => {
         const pillElement = document.createElement("div");
         pillElement.className =
-          "absolute rounded-full bg-[#d4e157] px-8 py-4 flex items-center justify-center text-base sm:text-xl font-semibold text-neutral-900 whitespace-nowrap select-none pointer-events-none";
-        pillElement.textContent = skill;
+          "absolute rounded-full bg-[#F9D9FF] px-8 py-4 flex items-center justify-center text-base sm:text-xl font-semibold text-neutral-900 whitespace-nowrap select-none pointer-events-none";
+        pillElement.textContent = subject;
         container.appendChild(pillElement);
 
         const { width: pillWidth, height: pillHeight } = getPillDimensions(
-          skill,
+          subject,
           isSmallScreen,
         );
 
@@ -160,7 +157,7 @@ export function PhysicsSkillPills({
         });
 
         Composite.add(engine!.world, body);
-        skillBodies.push({
+        subjectBodies.push({
           body,
           element: pillElement,
           renderX: x,
@@ -213,8 +210,8 @@ export function PhysicsSkillPills({
         const seconds = now * 0.001;
 
         if (pointer.active || now - pointer.seenAt < 60) {
-          for (const skill of skillBodies) {
-            const { body } = skill;
+          for (const subject of subjectBodies) {
+            const { body } = subject;
             const delta = Vector.sub(body.position, pointer);
             const distance = Math.max(1, Vector.magnitude(delta));
 
@@ -239,8 +236,8 @@ export function PhysicsSkillPills({
           }
         }
 
-        for (const skill of skillBodies) {
-          const { body, chaosPhase } = skill;
+        for (const subject of subjectBodies) {
+          const { body, chaosPhase } = subject;
           const chaosX = Math.sin(seconds * 1.7 + chaosPhase) * CHAOS_FORCE;
           const chaosY = Math.cos(seconds * 1.3 + chaosPhase) * CHAOS_FORCE;
           Body.applyForce(body, body.position, { x: chaosX, y: chaosY });
@@ -258,13 +255,13 @@ export function PhysicsSkillPills({
         Engine.update(engine!, dt);
 
         const blend = 0.24;
-        for (const skill of skillBodies) {
-          const { body, element } = skill;
-          skill.renderX += (body.position.x - skill.renderX) * blend;
-          skill.renderY += (body.position.y - skill.renderY) * blend;
-          skill.renderAngle += (body.angle - skill.renderAngle) * 0.2;
+        for (const subject of subjectBodies) {
+          const { body, element } = subject;
+          subject.renderX += (body.position.x - subject.renderX) * blend;
+          subject.renderY += (body.position.y - subject.renderY) * blend;
+          subject.renderAngle += (body.angle - subject.renderAngle) * 0.2;
 
-          element.style.transform = `translate(-50%, -50%) translate(${skill.renderX}px, ${skill.renderY}px) rotate(${skill.renderAngle}rad)`;
+          element.style.transform = `translate(-50%, -50%) translate(${subject.renderX}px, ${subject.renderY}px) rotate(${subject.renderAngle}rad)`;
         }
 
         pointer.vx *= 0.82;
@@ -305,7 +302,7 @@ export function PhysicsSkillPills({
 
       container.innerHTML = "";
     };
-  }, [skills]);
+  }, [subjects]);
 
   return (
     <div

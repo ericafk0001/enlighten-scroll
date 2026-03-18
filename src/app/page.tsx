@@ -4,7 +4,7 @@ import { useGSAP, useScrollTrigger } from "@/hooks/useGSAP";
 import { SmoothDotCursor } from "@/components/ui/SmoothDotCursor";
 import { ThreeGradientBackground } from "@/components/ui/ThreeGradientBackground";
 import { RevealText } from "@/components/ui/RevealText";
-import { PhysicsSkillPills } from "@/components/ui/PhysicsSkillPills";
+import { SubjectPills } from "@/components/ui/SubjectPills";
 import { Petit_Formal_Script } from "next/font/google";
 import Image from "next/image";
 
@@ -14,7 +14,7 @@ const petitFormalScript = Petit_Formal_Script({
 });
 
 export default function Home() {
-  const skills = [
+  const subjects = [
     "Physics",
     "Chemistry",
     "Algebra",
@@ -278,13 +278,13 @@ export default function Home() {
               Enlighten is for.
             </p>
             <ul className="sr-only">
-              {skills.map((skill) => (
-                <li key={skill}>{skill}</li>
+              {subjects.map((subject) => (
+                <li key={subject}>{subject}</li>
               ))}
             </ul>
           </div>
 
-          <PhysicsSkillPills skills={skills} className="z-20" />
+          <SubjectPills subjects={subjects} className="z-20" />
         </section>
 
         <section
