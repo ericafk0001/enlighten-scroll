@@ -4,6 +4,7 @@ import { useGSAP, useScrollTrigger } from "@/hooks/useGSAP";
 import { SmoothDotCursor } from "@/components/ui/SmoothDotCursor";
 import { ThreeGradientBackground } from "@/components/ui/ThreeGradientBackground";
 import { RevealText } from "@/components/ui/RevealText";
+import { PhysicsSkillPills } from "@/components/ui/PhysicsSkillPills";
 import { Petit_Formal_Script } from "next/font/google";
 import Image from "next/image";
 
@@ -13,6 +14,17 @@ const petitFormalScript = Petit_Formal_Script({
 });
 
 export default function Home() {
+  const skills = [
+    "Data Analysis",
+    "Argument Evaluation",
+    "Problem Solving",
+    "Media Literacy",
+    "Decision Making",
+    "Logical Reasoning",
+    "Financial Literacy",
+    "Fact-Checking",
+  ];
+
   const heroRef = useGSAP<HTMLDivElement>((element, gsap) => {
     const tl = gsap.timeline();
 
@@ -222,16 +234,19 @@ export default function Home() {
       </section>
 
       <div className="mt-3 sm:mt-4 mx-auto grid grid-cols-1 lg:grid-cols-[1.6fr_1fr] gap-3 sm:gap-4 md:gap-5 w-full">
-        <section className="rounded-[2.25rem] sm:rounded-[3rem] bg-[#c8cfd6] px-5 sm:px-8 py-8 sm:py-10 min-h-[420px] sm:min-h-[560px] lg:min-h-[670px] flex flex-col justify-center">
-          <h3 className="text-sm font-semibold uppercase tracking-widest text-neutral-950 mb-5">
-            Focused Learning
-          </h3>
-          <p className="text-base sm:text-xl lg:text-2xl text-neutral-950 leading-relaxed">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus eius
-            aliquam error animi quod. Natus ipsam dolores, aliquid quo vitae
-            unde nihil. Vel iusto itaque facere, possimus explicabo alias
-            temporibus.
-          </p>
+        <section className="relative overflow-hidden rounded-[2.25rem] sm:rounded-[3rem] bg-[#d5c8e6] px-5 sm:px-8 py-8 sm:py-10 min-h-[420px] sm:min-h-[560px] lg:min-h-[670px] flex flex-col justify-start pt-6 sm:pt-8">
+          <div className="relative z-10 max-w-2xl">
+            <h2 className="text-3xl sm:text-5xl md:text-4xl lg:text-5xl font-semibold tracking-tight text-neutral-900 leading-[1.1] mb-4 sm:mb-6">
+              Fundamental skills you&apos;ll use every day
+            </h2>
+            <p className="text-base sm:text-xl md:text-2xl lg:text-[35px] text-neutral-700 leading-snug">
+              Critical thinking requires a collection of specific skills you
+              apply in specific situations. Nobody is born good at all of this,
+              but all of it can be learned. That&apos;s what Enlighten is for.
+            </p>
+          </div>
+
+          <PhysicsSkillPills skills={skills} className="z-20" />
         </section>
 
         <section className="relative overflow-hidden rounded-[2.25rem] sm:rounded-[3rem] bg-[#d8d4cd] px-5 sm:px-8 pt-8 sm:pt-10 min-h-[520px] sm:min-h-[620px] lg:min-h-[670px]">
@@ -240,8 +255,8 @@ export default function Home() {
               The antidote to brain rot
             </h3>
             <p className="text-base sm:text-xl md:text-2xl lg:text-[35px] text-neutral-700 leading-snug">
-              Enlighten brings ideas that actively engage your brain, not
-              pre-digested material for passive consumption.
+              Enlighten brings ideas that actively engage your brain, and helps
+              you learn by simplifying what others overcomplicate.
             </p>
           </div>
 
