@@ -29,6 +29,7 @@ const CURSOR_INFLUENCE_RADIUS = 180;
 const CURSOR_FORCE = 0.0027;
 const CHAOS_FORCE = 0.00003;
 const MAX_SPEED = 11;
+const MOBILE_BREAKPOINT = 767;
 
 function getPillDimensions(text: string, isSmallScreen: boolean) {
   const horizontalPadding = isSmallScreen ? 68 : 88;
@@ -178,7 +179,41 @@ export function SubjectPills({ subjects, className = "" }: SubjectPillsProps) {
         seenAt: performance.now(),
       };
 
+      let touchPointerId: number | null = null;
+      let pageScrollLocked = false;
+      let previousBodyOverflow = "";
+      let previousBodyOverscrollBehavior = "";
+
+      const isMobileViewport = () =>
+        window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`).matches;
+
+      const lockPageScroll = () => {
+        if (pageScrollLocked || !isMobileViewport()) {
+          return;
+        }
+
+        pageScrollLocked = true;
+        previousBodyOverflow = document.body.style.overflow;
+        previousBodyOverscrollBehavior = document.body.style.overscrollBehavior;
+        document.body.style.overflow = "hidden";
+        document.body.style.overscrollBehavior = "none";
+      };
+
+      const unlockPageScroll = () => {
+        if (!pageScrollLocked) {
+          return;
+        }
+
+        pageScrollLocked = false;
+        document.body.style.overflow = previousBodyOverflow;
+        document.body.style.overscrollBehavior = previousBodyOverscrollBehavior;
+      };
+
       const handlePointerMove = (event: PointerEvent) => {
+        if (event.pointerType === "touch" && isMobileViewport()) {
+          lockPageScroll();
+        }
+
         const rect = container.getBoundingClientRect();
         pointer.px = pointer.x;
         pointer.py = pointer.y;
@@ -198,10 +233,36 @@ export function SubjectPills({ subjects, className = "" }: SubjectPillsProps) {
         pointer.active = false;
         pointer.vx = 0;
         pointer.vy = 0;
+
+        if (touchPointerId !== null) {
+          touchPointerId = null;
+          unlockPageScroll();
+        }
       };
 
+      const handlePointerDown = (event: PointerEvent) => {
+        if (event.pointerType !== "touch" || !isMobileViewport()) {
+          return;
+        }
+
+        touchPointerId = event.pointerId;
+        lockPageScroll();
+      };
+
+      const handlePointerEnd = (event: PointerEvent) => {
+        if (touchPointerId === null || event.pointerId !== touchPointerId) {
+          return;
+        }
+
+        touchPointerId = null;
+        unlockPageScroll();
+      };
+
+      container.addEventListener("pointerdown", handlePointerDown);
       container.addEventListener("pointermove", handlePointerMove);
       container.addEventListener("pointerleave", handlePointerLeave);
+      window.addEventListener("pointerup", handlePointerEnd);
+      window.addEventListener("pointercancel", handlePointerEnd);
 
       frameLastTime = performance.now();
       const animate = (now: number) => {
@@ -275,8 +336,12 @@ export function SubjectPills({ subjects, className = "" }: SubjectPillsProps) {
       animate(frameLastTime);
 
       return () => {
+        container.removeEventListener("pointerdown", handlePointerDown);
         container.removeEventListener("pointermove", handlePointerMove);
         container.removeEventListener("pointerleave", handlePointerLeave);
+        window.removeEventListener("pointerup", handlePointerEnd);
+        window.removeEventListener("pointercancel", handlePointerEnd);
+        unlockPageScroll();
       };
     };
 
@@ -307,7 +372,7 @@ export function SubjectPills({ subjects, className = "" }: SubjectPillsProps) {
   return (
     <div
       ref={containerRef}
-      className={`absolute inset-0 ${className}`}
+      className={`absolute inset-0 touch-none md:touch-auto ${className}`}
       aria-hidden
     />
   );
