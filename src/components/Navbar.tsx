@@ -47,7 +47,7 @@ export default function Navbar() {
             className="h-8 w-auto"
           />
         </Link>
-        <ul className="flex items-center gap-2 sm:gap-3 md:gap-6 lg:gap-8">
+        <ul className="hidden items-center gap-2 sm:gap-3 md:flex md:gap-6 lg:gap-8">
           <li>
             <Link
               href="/#why-enlighten"
@@ -75,7 +75,7 @@ export default function Navbar() {
         </ul>
         <Link
           href="/#why-enlighten"
-          className="min-w-15 rounded-full border border-white/60 bg-white/65 px-3 py-2 text-sm font-medium text-neutral-950 backdrop-blur-md transition-colors hover:bg-white/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900 focus-visible:ring-offset-2 md:min-w-20 md:px-4 md:text-[18px]"
+          className="min-w-15 shrink-0 whitespace-nowrap rounded-full border border-white/60 bg-white/65 px-3 py-2 text-sm font-medium text-neutral-950 backdrop-blur-md transition-colors hover:bg-white/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900 focus-visible:ring-offset-2 md:min-w-20 md:px-4 md:text-[18px]"
         >
           Try Now
         </Link>
