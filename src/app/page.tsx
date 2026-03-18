@@ -13,6 +13,50 @@ const petitFormalScript = Petit_Formal_Script({
   subsets: ["latin"],
 });
 
+interface TypeInDropTextProps {
+  children: string;
+  className?: string;
+  id?: string;
+  as?: "p" | "h2";
+}
+
+function TypeInDropText({
+  children,
+  className,
+  id,
+  as: Tag = "p",
+}: TypeInDropTextProps) {
+  const words = children.split(" ");
+
+  return (
+    <Tag id={id} className={className} data-type-line>
+      <span className="sr-only">{children}</span>
+      <span aria-hidden="true">
+        {words.map((word, wi) => (
+          <span key={wi} style={{ display: "inline" }}>
+            <span style={{ display: "inline-block", whiteSpace: "nowrap" }}>
+              {Array.from(word).map((char, ci) => (
+                <span
+                  key={ci}
+                  data-type-char
+                  style={{
+                    display: "inline-block",
+                    opacity: 0,
+                    transform: "translateY(-12px)",
+                  }}
+                >
+                  {char}
+                </span>
+              ))}
+            </span>
+            {wi < words.length - 1 && " "}
+          </span>
+        ))}
+      </span>
+    </Tag>
+  );
+}
+
 export default function Home() {
   const subjects = [
     "Physics",
@@ -114,6 +158,36 @@ export default function Home() {
         end: "bottom top",
         scrub: 1.1,
       },
+    });
+  });
+
+  const lowerTextRef = useScrollTrigger<HTMLDivElement>((element, gsap) => {
+    const lines = element.querySelectorAll<HTMLElement>("[data-type-line]");
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      gsap.set(element.querySelectorAll<HTMLElement>("[data-type-char]"), {
+        opacity: 1,
+        y: 0,
+      });
+      return;
+    }
+
+    lines.forEach((line) => {
+      const chars = line.querySelectorAll<HTMLElement>("[data-type-char]");
+
+      gsap.to(chars, {
+        opacity: 1,
+        y: 0,
+        duration: 0.28,
+        ease: "power2.out",
+        stagger: 0.01,
+        scrollTrigger: {
+          trigger: line,
+          start: "top 86%",
+          toggleActions: "play none none none",
+          once: true,
+        },
+      });
     });
   });
 
@@ -259,24 +333,27 @@ export default function Home() {
         </div>
       </section>
 
-      <div className="mt-3 sm:mt-4 mx-auto grid grid-cols-1 lg:grid-cols-[1.6fr_1fr] gap-3 sm:gap-4 md:gap-5 w-full">
+      <div
+        ref={lowerTextRef}
+        className="mt-3 sm:mt-4 mx-auto grid grid-cols-1 lg:grid-cols-[1.6fr_1fr] gap-3 sm:gap-4 md:gap-5 w-full"
+      >
         <section
           aria-labelledby="subjects-heading"
           className="relative overflow-hidden rounded-[2.25rem] sm:rounded-[3rem] bg-[#d5c8e6] px-5 sm:px-8 py-8 sm:py-10 min-h-[420px] sm:min-h-[560px] lg:min-h-[670px] flex flex-col justify-start pt-6 sm:pt-8"
         >
           <div className="relative z-10 max-w-2xl">
-            <h2
+            <TypeInDropText
+              as="h2"
               id="subjects-heading"
               className="text-3xl sm:text-5xl md:text-4xl lg:text-5xl font-semibold tracking-tight text-neutral-900 leading-[1.1] mb-4 sm:mb-6"
             >
-              Core subjects you&apos;ll explore every day
-            </h2>
-            <p className="text-base sm:text-xl md:text-2xl lg:text-[35px] text-neutral-800 leading-snug">
-              Deep understanding comes from exploring key subjects and learning
-              how they connect in real life. Nobody starts out mastering all of
-              them, but every one of them can be learned. That&apos;s what
-              Enlighten is for.
-            </p>
+              {"Core subjects you'll explore every day"}
+            </TypeInDropText>
+            <TypeInDropText className="text-base sm:text-xl md:text-2xl lg:text-[35px] text-neutral-800 leading-snug">
+              {
+                "Deep understanding comes from exploring key subjects and learning how they connect in real life. Nobody starts out mastering all of them, but every one of them can be learned. That's what Enlighten is for."
+              }
+            </TypeInDropText>
             <ul className="sr-only">
               {subjects.map((subject) => (
                 <li key={subject}>{subject}</li>
@@ -292,16 +369,18 @@ export default function Home() {
           className="relative overflow-hidden rounded-[2.25rem] sm:rounded-[3rem] bg-[#d8d4cd] px-5 sm:px-8 pt-8 sm:pt-10 min-h-[520px] sm:min-h-[620px] lg:min-h-[670px]"
         >
           <div className="relative z-10 max-w-[260px] sm:max-w-[380px] md:max-w-[460px]">
-            <h2
+            <TypeInDropText
+              as="h2"
               id="brain-rot-heading"
               className="text-3xl sm:text-5xl md:text-4xl lg:text-5xl font-semibold tracking-tight text-neutral-900 leading-[1.05] mb-4 sm:mb-6"
             >
-              The antidote to brain rot
-            </h2>
-            <p className="text-base sm:text-xl md:text-2xl lg:text-[35px] text-neutral-800 leading-snug">
-              Enlighten brings ideas that actively engage your brain, and helps
-              you learn by simplifying what others overcomplicate.
-            </p>
+              {"The antidote to brain rot"}
+            </TypeInDropText>
+            <TypeInDropText className="text-base sm:text-xl md:text-2xl lg:text-[35px] text-neutral-800 leading-snug">
+              {
+                "Enlighten brings ideas that actively engage your brain, and helps you learn by simplifying what others overcomplicate."
+              }
+            </TypeInDropText>
           </div>
 
           <div className="absolute -bottom-[20%] -right-[34%] sm:-bottom-[28%] sm:-right-[24%] md:-bottom-[26%] md:-right-[14%] lg:-bottom-[34%] lg:-right-[24%] w-[92%] sm:w-[84%] md:w-[68%] lg:w-[78%] aspect-square rounded-full bg-[#f09470]" />
