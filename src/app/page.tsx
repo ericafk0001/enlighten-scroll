@@ -15,14 +15,14 @@ const petitFormalScript = Petit_Formal_Script({
 
 export default function Home() {
   const skills = [
-    "Data Analysis",
-    "Argument Evaluation",
-    "Problem Solving",
-    "Media Literacy",
-    "Decision Making",
-    "Logical Reasoning",
-    "Financial Literacy",
-    "Fact-Checking",
+    "Physics",
+    "Chemistry",
+    "Algebra",
+    "Biology",
+    "Geometry",
+    "World History",
+    "Computer Science",
+    "Economics",
   ];
 
   const heroRef = useGSAP<HTMLDivElement>((element, gsap) => {
@@ -237,12 +237,13 @@ export default function Home() {
         <section className="relative overflow-hidden rounded-[2.25rem] sm:rounded-[3rem] bg-[#d5c8e6] px-5 sm:px-8 py-8 sm:py-10 min-h-[420px] sm:min-h-[560px] lg:min-h-[670px] flex flex-col justify-start pt-6 sm:pt-8">
           <div className="relative z-10 max-w-2xl">
             <h2 className="text-3xl sm:text-5xl md:text-4xl lg:text-5xl font-semibold tracking-tight text-neutral-900 leading-[1.1] mb-4 sm:mb-6">
-              Fundamental skills you&apos;ll use every day
+              Core subjects you&apos;ll explore every day
             </h2>
             <p className="text-base sm:text-xl md:text-2xl lg:text-[35px] text-neutral-700 leading-snug">
-              Critical thinking requires a collection of specific skills you
-              apply in specific situations. Nobody is born good at all of this,
-              but all of it can be learned. That&apos;s what Enlighten is for.
+              Deep understanding comes from exploring key subjects and learning
+              how they connect in real life. Nobody starts out mastering all of
+              them, but every one of them can be learned. That&apos;s what
+              Enlighten is for.
             </p>
           </div>
 
