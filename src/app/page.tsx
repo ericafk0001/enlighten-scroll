@@ -221,7 +221,7 @@ export default function Home() {
       ease: "none",
       scrollTrigger: {
         trigger: element,
-        start: "top 80%",
+        start: "top 60%",
         end: "bottom top",
         scrub: 1.1,
       },
@@ -330,7 +330,7 @@ export default function Home() {
             data-move-x="-190"
             data-move-y="-190"
             data-rotate="-16"
-            className="absolute left-[14%] top-[18%] w-[68px] sm:w-[94px] md:w-[108px] lg:w-auto rounded-2xl object-cover shadow-md ring-2 ring-neutral-900/35"
+            className="absolute left-[16%] top-[12%] w-[128px] sm:left-[14%] sm:top-[18%] sm:w-[94px] md:w-[108px] lg:w-auto rounded-2xl object-cover shadow-md ring-2 ring-neutral-900/35"
           />
           <Image
             src="/images/book.jpg"
@@ -341,7 +341,7 @@ export default function Home() {
             data-move-x="-220"
             data-move-y="-60"
             data-rotate="-12"
-            className="absolute left-[16%] top-[40%] w-[62px] sm:w-[84px] md:w-[96px] lg:w-auto rounded-2xl object-cover shadow-md ring-2 ring-neutral-900/35"
+            className="absolute left-[20%] top-[30%] w-[120px] sm:left-[16%] sm:top-[40%] sm:w-[84px] md:w-[96px] lg:w-auto rounded-2xl object-cover shadow-md ring-2 ring-neutral-900/35"
           />
           <Image
             src="/images/money.jpg"
@@ -352,7 +352,7 @@ export default function Home() {
             data-move-x="-180"
             data-move-y="190"
             data-rotate="14"
-            className="absolute left-[14%] top-[64%] w-[74px] sm:w-[102px] md:w-[116px] lg:w-auto rounded-2xl object-cover shadow-md ring-2 ring-neutral-900/35"
+            className="absolute left-[12%] top-[56%] w-[136px] sm:left-[14%] sm:top-[64%] sm:w-[102px] md:w-[116px] lg:w-auto rounded-2xl object-cover shadow-md ring-2 ring-neutral-900/35"
           />
           <Image
             src="/images/basketball.jpg"
@@ -363,7 +363,7 @@ export default function Home() {
             data-move-x="190"
             data-move-y="-190"
             data-rotate="12"
-            className="absolute right-[14%] top-[18%] w-[62px] sm:w-[82px] md:w-[92px] lg:w-auto rounded-2xl object-cover shadow-md ring-2 ring-neutral-900/35"
+            className="absolute right-[16%] top-[12%] w-[120px] sm:right-[14%] sm:top-[18%] sm:w-[82px] md:w-[92px] lg:w-auto rounded-2xl object-cover shadow-md ring-2 ring-neutral-900/35"
           />
           <Image
             src="/images/einstein.png"
@@ -374,7 +374,7 @@ export default function Home() {
             data-move-x="170"
             data-move-y="-130"
             data-rotate="-10"
-            className="absolute right-[16%] top-[36%] w-[62px] sm:w-[84px] md:w-[94px] lg:w-auto rounded-2xl object-cover shadow-md ring-2 ring-neutral-900/35"
+            className="absolute right-[20%] top-[30%] w-[118px] sm:right-[16%] sm:top-[36%] sm:w-[84px] md:w-[94px] lg:w-auto rounded-2xl object-cover shadow-md ring-2 ring-neutral-900/35"
           />
           <Image
             src="/images/rocket.jpg"
@@ -385,7 +385,7 @@ export default function Home() {
             data-move-x="220"
             data-move-y="60"
             data-rotate="16"
-            className="absolute right-[14%] top-[52%] w-[64px] sm:w-[84px] md:w-[94px] lg:w-auto rounded-2xl object-cover shadow-md ring-2 ring-neutral-900/35"
+            className="absolute right-[12%] top-[48%] w-[124px] sm:right-[14%] sm:top-[52%] sm:w-[84px] md:w-[94px] lg:w-auto rounded-2xl object-cover shadow-md ring-2 ring-neutral-900/35"
           />
           <Image
             src="/images/scale.png"
@@ -396,7 +396,7 @@ export default function Home() {
             data-move-x="190"
             data-move-y="190"
             data-rotate="-12"
-            className="absolute right-[14%] top-[68%] w-[58px] sm:w-[78px] md:w-[88px] lg:w-auto rounded-2xl object-cover shadow-md ring-2 ring-neutral-900/35"
+            className="absolute right-[3%] top-[62%] w-[112px] sm:right-[14%] sm:top-[68%] sm:w-[78px] md:w-[88px] lg:w-auto rounded-2xl object-cover shadow-md ring-2 ring-neutral-900/35"
           />
         </div>
 
