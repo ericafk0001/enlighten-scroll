@@ -5,9 +5,10 @@ import { SmoothDotCursor } from "@/components/ui/SmoothDotCursor";
 import { ThreeGradientBackground } from "@/components/ui/ThreeGradientBackground";
 import { RevealText } from "@/components/ui/RevealText";
 import { SubjectPills } from "@/components/ui/SubjectPills";
+import { gsap as gsapInstance } from "@/lib/gsap";
 import { Petit_Formal_Script } from "next/font/google";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 const petitFormalScript = Petit_Formal_Script({
   weight: "400",
@@ -85,8 +86,9 @@ export default function Home() {
 
       if (loaded >= total) {
         window.setTimeout(() => {
-          if (isMounted) setShowLoader(false);
-        }, 180);
+          if (!isMounted) return;
+          setShowLoader(false);
+        }, 200);
       }
     };
 
@@ -103,6 +105,11 @@ export default function Home() {
     }
 
     images.forEach((image) => {
+      if (image.loading === "lazy") {
+        markLoaded();
+        return;
+      }
+
       if (image.complete) {
         markLoaded();
         return;
@@ -136,43 +143,71 @@ export default function Home() {
     "Economics",
   ];
 
-  const heroRef = useGSAP<HTMLDivElement>((element, gsap) => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      gsap.set(element, { scale: 1, opacity: 1 });
-      gsap.set(element.querySelector("[data-hero-copy]"), {
-        scale: 1,
-        opacity: 1,
+  const runHeroIntro = useCallback(
+    (element: HTMLDivElement, gsap: typeof gsapInstance) => {
+      const heroCopy = element.querySelector("[data-hero-copy]");
+
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        gsap.set(element, { scale: 1, opacity: 1 });
+        gsap.set(heroCopy, {
+          scale: 1,
+          opacity: 1,
+        });
+        if (!showLoader) {
+          window.dispatchEvent(new Event("enlighten:hero-ready"));
+        }
+        return;
+      }
+
+      if (showLoader) {
+        gsap.set(element, {
+          scale: 0,
+          opacity: 1,
+          transformOrigin: "center center",
+        });
+        gsap.set(heroCopy, {
+          scale: 1.3,
+          opacity: 0,
+          transformOrigin: "center center",
+        });
+        return;
+      }
+
+      const tl = gsap.timeline();
+
+      tl.fromTo(
+        element,
+        { scale: 0, opacity: 1, transformOrigin: "center center" },
+        {
+          scale: 1,
+          opacity: 1,
+          duration: 2.1,
+          ease: "expo.out",
+        },
+      );
+
+      tl.fromTo(
+        heroCopy,
+        { scale: 1.3, opacity: 0, transformOrigin: "center center" },
+        {
+          scale: 1,
+          opacity: 1,
+          duration: 1.1,
+          ease: "power3.out",
+        },
+        "-=1",
+      );
+
+      tl.eventCallback("onComplete", () => {
+        window.dispatchEvent(new Event("enlighten:hero-ready"));
       });
-      return;
-    }
 
-    const tl = gsap.timeline();
+      return tl;
+    },
+    [showLoader],
+  );
 
-    tl.fromTo(
-      element,
-      { scale: 0, opacity: 1, transformOrigin: "center center" },
-      {
-        scale: 1,
-        opacity: 1,
-        duration: 2.1,
-        ease: "expo.out",
-      },
-    );
-
-    tl.fromTo(
-      element.querySelector("[data-hero-copy]"),
-      { scale: 1.3, opacity: 0, transformOrigin: "center center" },
-      {
-        scale: 1,
-        opacity: 1,
-        duration: 1.1,
-        ease: "power3.out",
-      },
-      "-=1",
-    );
-
-    return tl;
-  });
+  const heroRef = useGSAP<HTMLDivElement>(runHeroIntro);
 
   const sectionRef = useScrollTrigger<HTMLElement>((element, gsap) => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -261,7 +296,7 @@ export default function Home() {
   return (
     <div ref={pageRootRef} className="min-h-screen px-3 py-3 sm:px-4 sm:py-4">
       {showLoader && (
-        <div className="fixed inset-0 z-[120] flex items-center justify-center bg-[#dfe3e8]/95 backdrop-blur-[2px]">
+        <div className="fixed inset-0 z-[120] flex items-center justify-center bg-[#dfe3e8] ">
           <div className="w-[260px] max-w-[84vw]">
             <div
               className="mb-2 flex items-center justify-between text-xs font-semibold uppercase tracking-[0.18em] text-neutral-800"
