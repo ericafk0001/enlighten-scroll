@@ -299,7 +299,7 @@ export default function Home() {
           <p className="text-sm md:text-[18px] font-semibold uppercase tracking-[0.2em] text-black-500 mb-4">
             Picture this
           </p>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl xl:text-[140px] font-semibold text-black-500 text-center leading-tight">
+          <h1 className="text-5xl sm:text-5xl md:text-6xl lg:text-8xl xl:text-[140px] font-semibold text-black-500 text-center leading-tight">
             Like Tiktok,
             <br />
             but for
