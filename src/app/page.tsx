@@ -7,6 +7,7 @@ import { RevealText } from "@/components/ui/RevealText";
 import { SubjectPills } from "@/components/ui/SubjectPills";
 import { Petit_Formal_Script } from "next/font/google";
 import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 
 const petitFormalScript = Petit_Formal_Script({
   weight: "400",
@@ -58,6 +59,68 @@ function TypeInDropText({
 }
 
 export default function Home() {
+  const pageRootRef = useRef<HTMLDivElement>(null);
+  const [loadProgress, setLoadProgress] = useState(0);
+  const [showLoader, setShowLoader] = useState(true);
+
+  useEffect(() => {
+    const root = pageRootRef.current;
+    if (!root) return;
+
+    let isMounted = true;
+    let loaded = 0;
+    const listeners: Array<() => void> = [];
+
+    const images = Array.from(root.querySelectorAll("img"));
+    const total = Math.max(1, images.length + 1);
+
+    const markLoaded = () => {
+      if (!isMounted) return;
+      loaded += 1;
+
+      const nextProgress = Math.min(100, Math.round((loaded / total) * 100));
+      setLoadProgress((current) => (nextProgress > current ? nextProgress : current));
+
+      if (loaded >= total) {
+        window.setTimeout(() => {
+          if (isMounted) setShowLoader(false);
+        }, 180);
+      }
+    };
+
+    if (document.readyState === "complete") {
+      markLoaded();
+    } else {
+      const handleWindowLoad = () => {
+        markLoaded();
+      };
+      window.addEventListener("load", handleWindowLoad, { once: true });
+      listeners.push(() => window.removeEventListener("load", handleWindowLoad));
+    }
+
+    images.forEach((image) => {
+      if (image.complete) {
+        markLoaded();
+        return;
+      }
+
+      const handleImageDone = () => {
+        markLoaded();
+      };
+
+      image.addEventListener("load", handleImageDone, { once: true });
+      image.addEventListener("error", handleImageDone, { once: true });
+
+      listeners.push(() => image.removeEventListener("load", handleImageDone));
+      listeners.push(() => image.removeEventListener("error", handleImageDone));
+    });
+
+    return () => {
+      isMounted = false;
+      listeners.forEach((cleanup) => cleanup());
+    };
+  }, []);
+
   const subjects = [
     "Physics",
     "Chemistry",
@@ -192,7 +255,33 @@ export default function Home() {
   });
 
   return (
-    <div className="min-h-screen px-3 py-3 sm:px-4 sm:py-4">
+    <div ref={pageRootRef} className="min-h-screen px-3 py-3 sm:px-4 sm:py-4">
+      {showLoader && (
+        <div className="fixed inset-0 z-[120] flex items-center justify-center bg-[#dfe3e8]/95 backdrop-blur-[2px]">
+          <div className="w-[260px] max-w-[84vw]">
+            <div
+              className="mb-2 flex items-center justify-between text-xs font-semibold uppercase tracking-[0.18em] text-neutral-800"
+              aria-live="polite"
+            >
+              <span>Loading</span>
+              <span>{loadProgress}%</span>
+            </div>
+            <div
+              role="progressbar"
+              aria-label="Page loading progress"
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-valuenow={loadProgress}
+              className="h-4 w-full overflow-hidden border-2 border-neutral-900 bg-white"
+            >
+              <div
+                className="h-full bg-neutral-900 transition-[width] duration-150 ease-out"
+                style={{ width: `${loadProgress}%` }}
+              />
+            </div>
+          </div>
+        </div>
+      )}
       <SmoothDotCursor />
       <div
         ref={heroRef}
