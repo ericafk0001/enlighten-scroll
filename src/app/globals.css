@@ -126,6 +126,11 @@
   html {
     @apply font-sans;
   }
+
+  :where(a, button, input, select, textarea, [tabindex]):focus-visible {
+    outline: 3px solid oklch(0.205 0 0);
+    outline-offset: 3px;
+  }
 }
 
 html.has-scroll-smooth {
@@ -152,5 +157,16 @@ html.has-scroll-dragging {
 @supports (scroll-behavior: smooth) {
   html:not(.has-scroll-smooth) {
     scroll-behavior: smooth;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

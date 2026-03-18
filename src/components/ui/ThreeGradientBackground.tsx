@@ -42,6 +42,10 @@ export function ThreeGradientBackground() {
   useEffect(() => {
     if (!containerRef.current) return;
 
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
+
     const container = containerRef.current;
     const scene = new THREE.Scene();
 
@@ -170,6 +174,8 @@ export function ThreeGradientBackground() {
       aria-hidden
       className="absolute inset-0 pointer-events-none overflow-hidden rounded-[3rem]"
       style={{
+        background:
+          "radial-gradient(circle at 20% 25%, rgba(82,92,102,0.28), transparent 42%), radial-gradient(circle at 76% 22%, rgba(173,181,189,0.26), transparent 40%), radial-gradient(circle at 52% 72%, rgba(99,110,120,0.22), transparent 48%)",
         filter: `blur(${CONFIG.blur}px) saturate(${CONFIG.saturation * 100}%)`,
       }}
     />

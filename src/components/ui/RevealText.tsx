@@ -7,6 +7,7 @@ interface RevealTextProps {
   children: string;
   className?: string;
   as?: "p" | "h1" | "h2" | "h3" | "h4";
+  id?: string;
   startOpacity?: number;
   triggerStart?: string;
   triggerEnd?: string;
@@ -17,6 +18,7 @@ export function RevealText({
   children,
   className,
   as: Tag = "p",
+  id,
   startOpacity = 0.12,
   triggerStart = "top 95%",
   triggerEnd = "bottom 20%",
@@ -29,6 +31,11 @@ export function RevealText({
 
     const spans =
       containerRef.current.querySelectorAll<HTMLSpanElement>("[data-char]");
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      gsap.set(spans, { opacity: 1 });
+      return;
+    }
 
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
@@ -59,7 +66,7 @@ export function RevealText({
 
   return (
     <div ref={containerRef}>
-      <Tag className={className} aria-label={children}>
+      <Tag id={id} className={className} aria-label={children}>
         {words.map((word, wi) => (
           <span key={wi} style={{ display: "inline" }}>
             <span style={{ display: "inline-block", whiteSpace: "nowrap" }}>

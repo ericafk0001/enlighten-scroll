@@ -22,8 +22,16 @@ export default function RootLayout({
   return (
     <html lang="en" className={cn("font-sans", chivo.variable)}>
       <body className={`${chivo.className} antialiased`}>
+        <a
+          href="#main-content"
+          className="sr-only fixed left-3 top-3 z-[100] rounded-md bg-neutral-950 px-4 py-2 text-sm font-medium text-white focus:not-sr-only focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-neutral-900"
+        >
+          Skip to main content
+        </a>
         <Navbar />
-        {children}
+        <main id="main-content" tabIndex={-1}>
+          {children}
+        </main>
       </body>
     </html>
   );

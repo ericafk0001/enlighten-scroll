@@ -26,6 +26,15 @@ export default function Home() {
   ];
 
   const heroRef = useGSAP<HTMLDivElement>((element, gsap) => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      gsap.set(element, { scale: 1, opacity: 1 });
+      gsap.set(element.querySelector("[data-hero-copy]"), {
+        scale: 1,
+        opacity: 1,
+      });
+      return;
+    }
+
     const tl = gsap.timeline();
 
     tl.fromTo(
@@ -55,6 +64,18 @@ export default function Home() {
   });
 
   const sectionRef = useScrollTrigger<HTMLElement>((element, gsap) => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      gsap.set(element.querySelectorAll<HTMLSpanElement>("[data-char]"), {
+        opacity: 1,
+      });
+      gsap.set(element.querySelectorAll<HTMLElement>("[data-orbit-image]"), {
+        x: 0,
+        y: 0,
+        rotate: 0,
+      });
+      return;
+    }
+
     const isSmallScreen = window.matchMedia("(max-width: 767px)").matches;
     const moveMultiplier = isSmallScreen ? 2.6 : 1;
 
@@ -126,12 +147,16 @@ export default function Home() {
       <section
         id="why-enlighten"
         ref={sectionRef}
+        aria-labelledby="why-enlighten-heading"
         className="relative overflow-hidden flex scroll-mt-28 flex-col items-center justify-center text-center mt-3 sm:mt-4 mx-auto min-h-[72vh] sm:min-h-[60vh] md:min-h-[62vh] w-full rounded-[2.25rem] sm:rounded-[3rem] bg-[#c3dbe6] px-4"
       >
-        <div className="pointer-events-none absolute inset-0 z-20 block grayscale">
+        <div
+          className="pointer-events-none absolute inset-0 z-20 block grayscale"
+          aria-hidden="true"
+        >
           <Image
             src="/images/atom.jpg"
-            alt="Atom"
+            alt=""
             width={126}
             height={126}
             data-orbit-image
@@ -142,7 +167,7 @@ export default function Home() {
           />
           <Image
             src="/images/book.jpg"
-            alt="Book"
+            alt=""
             width={104}
             height={104}
             data-orbit-image
@@ -153,7 +178,7 @@ export default function Home() {
           />
           <Image
             src="/images/money.jpg"
-            alt="Money"
+            alt=""
             width={136}
             height={136}
             data-orbit-image
@@ -164,7 +189,7 @@ export default function Home() {
           />
           <Image
             src="/images/basketball.jpg"
-            alt="Basketball"
+            alt=""
             width={100}
             height={100}
             data-orbit-image
@@ -175,7 +200,7 @@ export default function Home() {
           />
           <Image
             src="/images/einstein.png"
-            alt="Einstein"
+            alt=""
             width={102}
             height={102}
             data-orbit-image
@@ -186,7 +211,7 @@ export default function Home() {
           />
           <Image
             src="/images/rocket.jpg"
-            alt="Rocket"
+            alt=""
             width={100}
             height={100}
             data-orbit-image
@@ -197,7 +222,7 @@ export default function Home() {
           />
           <Image
             src="/images/scale.png"
-            alt="Scale"
+            alt=""
             width={96}
             height={96}
             data-orbit-image
@@ -212,6 +237,7 @@ export default function Home() {
           <RevealText
             as="h2"
             controlled
+            id="why-enlighten-heading"
             className="text-[12px] sm:text-sm font-semibold uppercase tracking-widest text-neutral-950 mb-6"
           >
             {"Why Enlighten?"}
@@ -234,28 +260,45 @@ export default function Home() {
       </section>
 
       <div className="mt-3 sm:mt-4 mx-auto grid grid-cols-1 lg:grid-cols-[1.6fr_1fr] gap-3 sm:gap-4 md:gap-5 w-full">
-        <section className="relative overflow-hidden rounded-[2.25rem] sm:rounded-[3rem] bg-[#d5c8e6] px-5 sm:px-8 py-8 sm:py-10 min-h-[420px] sm:min-h-[560px] lg:min-h-[670px] flex flex-col justify-start pt-6 sm:pt-8">
+        <section
+          aria-labelledby="subjects-heading"
+          className="relative overflow-hidden rounded-[2.25rem] sm:rounded-[3rem] bg-[#d5c8e6] px-5 sm:px-8 py-8 sm:py-10 min-h-[420px] sm:min-h-[560px] lg:min-h-[670px] flex flex-col justify-start pt-6 sm:pt-8"
+        >
           <div className="relative z-10 max-w-2xl">
-            <h2 className="text-3xl sm:text-5xl md:text-4xl lg:text-5xl font-semibold tracking-tight text-neutral-900 leading-[1.1] mb-4 sm:mb-6">
+            <h2
+              id="subjects-heading"
+              className="text-3xl sm:text-5xl md:text-4xl lg:text-5xl font-semibold tracking-tight text-neutral-900 leading-[1.1] mb-4 sm:mb-6"
+            >
               Core subjects you&apos;ll explore every day
             </h2>
-            <p className="text-base sm:text-xl md:text-2xl lg:text-[35px] text-neutral-700 leading-snug">
+            <p className="text-base sm:text-xl md:text-2xl lg:text-[35px] text-neutral-800 leading-snug">
               Deep understanding comes from exploring key subjects and learning
               how they connect in real life. Nobody starts out mastering all of
               them, but every one of them can be learned. That&apos;s what
               Enlighten is for.
             </p>
+            <ul className="sr-only">
+              {skills.map((skill) => (
+                <li key={skill}>{skill}</li>
+              ))}
+            </ul>
           </div>
 
           <PhysicsSkillPills skills={skills} className="z-20" />
         </section>
 
-        <section className="relative overflow-hidden rounded-[2.25rem] sm:rounded-[3rem] bg-[#d8d4cd] px-5 sm:px-8 pt-8 sm:pt-10 min-h-[520px] sm:min-h-[620px] lg:min-h-[670px]">
+        <section
+          aria-labelledby="brain-rot-heading"
+          className="relative overflow-hidden rounded-[2.25rem] sm:rounded-[3rem] bg-[#d8d4cd] px-5 sm:px-8 pt-8 sm:pt-10 min-h-[520px] sm:min-h-[620px] lg:min-h-[670px]"
+        >
           <div className="relative z-10 max-w-[260px] sm:max-w-[380px] md:max-w-[460px]">
-            <h3 className="text-3xl sm:text-5xl md:text-4xl lg:text-5xl font-semibold tracking-tight text-neutral-900 leading-[1.05] mb-4 sm:mb-6">
+            <h2
+              id="brain-rot-heading"
+              className="text-3xl sm:text-5xl md:text-4xl lg:text-5xl font-semibold tracking-tight text-neutral-900 leading-[1.05] mb-4 sm:mb-6"
+            >
               The antidote to brain rot
-            </h3>
-            <p className="text-base sm:text-xl md:text-2xl lg:text-[35px] text-neutral-700 leading-snug">
+            </h2>
+            <p className="text-base sm:text-xl md:text-2xl lg:text-[35px] text-neutral-800 leading-snug">
               Enlighten brings ideas that actively engage your brain, and helps
               you learn by simplifying what others overcomplicate.
             </p>
