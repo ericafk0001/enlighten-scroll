@@ -8,20 +8,28 @@ import { useCallback, useEffect, useState } from "react";
 
 export default function Navbar() {
   const pathname = usePathname();
-
-  if (pathname.startsWith("/gallery")) {
-    return null;
-  }
+  const isGalleryRoute = pathname.startsWith("/gallery");
 
   const [canRevealOnHome, setCanRevealOnHome] = useState(pathname !== "/");
 
   useEffect(() => {
-    if (pathname !== "/") {
-      setCanRevealOnHome(true);
+    if (isGalleryRoute) {
       return;
     }
 
-    setCanRevealOnHome(false);
+    if (pathname !== "/") {
+      const revealTimer = window.setTimeout(() => {
+        setCanRevealOnHome(true);
+      }, 0);
+
+      return () => {
+        window.clearTimeout(revealTimer);
+      };
+    }
+
+    const hideTimer = window.setTimeout(() => {
+      setCanRevealOnHome(false);
+    }, 0);
 
     const handleHeroReady = () => {
       setCanRevealOnHome(true);
@@ -32,9 +40,10 @@ export default function Navbar() {
     });
 
     return () => {
+      window.clearTimeout(hideTimer);
       window.removeEventListener("enlighten:hero-ready", handleHeroReady);
     };
-  }, [pathname]);
+  }, [isGalleryRoute, pathname]);
 
   const runNavIntro = useCallback(
     (element: HTMLElement, gsap: (typeof import("@/lib/gsap"))["gsap"]) => {
@@ -71,6 +80,10 @@ export default function Navbar() {
   );
 
   const navRef = useGSAP<HTMLElement>(runNavIntro);
+
+  if (isGalleryRoute) {
+    return null;
+  }
 
   return (
     <nav

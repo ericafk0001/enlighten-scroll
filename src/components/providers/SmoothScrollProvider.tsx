@@ -70,9 +70,16 @@ export function SmoothScrollProvider({
         "has-scroll-dragging",
       );
       document.body.style.removeProperty("height");
-      setScroll(null);
-      setIsReady(true);
-      return;
+
+      // Defer state updates so the effect body only performs external sync work.
+      const disableTimer = window.setTimeout(() => {
+        setScroll(null);
+        setIsReady(true);
+      }, 0);
+
+      return () => {
+        window.clearTimeout(disableTimer);
+      };
     }
 
     const container = containerRef.current;
@@ -101,7 +108,8 @@ export function SmoothScrollProvider({
         ...options?.lenisOptions,
         smoothWheel: prefersReducedMotionRef.current
           ? false
-          : (options?.lenisOptions?.smoothWheel ?? baseLenisOptions.smoothWheel),
+          : (options?.lenisOptions?.smoothWheel ??
+            baseLenisOptions.smoothWheel),
       },
     };
 
@@ -164,13 +172,15 @@ export function SmoothScrollProvider({
       const href = anchor.getAttribute("href");
       if (!href || !href.includes("#")) return;
 
-      const isAbsolute = href.startsWith("http://") || href.startsWith("https://");
+      const isAbsolute =
+        href.startsWith("http://") || href.startsWith("https://");
       if (isAbsolute) return;
 
       const [pathPart, hashPart] = href.split("#");
       if (!hashPart) return;
 
-      const normalizedPath = pathPart === "" ? window.location.pathname : pathPart;
+      const normalizedPath =
+        pathPart === "" ? window.location.pathname : pathPart;
       if (normalizedPath !== window.location.pathname) return;
 
       event.preventDefault();
@@ -204,8 +214,6 @@ export function SmoothScrollProvider({
       ScrollTrigger.removeEventListener("refresh", handleRefresh);
       reducedMotionQuery.removeEventListener("change", handleMotionChange);
       locomotiveScroll.destroy();
-      setScroll(null);
-      setIsReady(false);
     };
   }, [baseLenisOptions, disableSmoothScroll, options]);
 
