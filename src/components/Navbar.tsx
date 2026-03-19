@@ -107,7 +107,7 @@ export default function Navbar() {
           </li>
           <li>
             <Link
-              href="/contact"
+              href="/#faq"
               className="hidden items-center rounded-full border border-transparent px-5 py-2 text-[20px] font-medium text-neutral-950/90 transition-colors hover:border-white/40 hover:bg-white/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900 focus-visible:ring-offset-2 md:inline-flex"
             >
               FAQ
