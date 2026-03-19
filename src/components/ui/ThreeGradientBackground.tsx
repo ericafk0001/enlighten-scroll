@@ -13,7 +13,7 @@ type AnimatedShape = {
 
 const CONFIG = {
   scaleMin: 3.5,
-  scaleMax: 6.0,
+  scaleMax: 5.5,
   blur: 80,
   saturation: 1.3,
   driftSpeed: 2.0,

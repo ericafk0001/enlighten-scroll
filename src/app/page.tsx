@@ -5,6 +5,7 @@ import { SmoothDotCursor } from "@/components/ui/SmoothDotCursor";
 import { ThreeGradientBackground } from "@/components/ui/ThreeGradientBackground";
 import { RevealText } from "@/components/ui/RevealText";
 import { SubjectPills } from "@/components/ui/SubjectPills";
+import { FaqAccordion } from "@/components/ui/FaqAccordion";
 import { gsap as gsapInstance } from "@/lib/gsap";
 import { Petit_Formal_Script } from "next/font/google";
 import Image from "next/image";
@@ -141,6 +142,30 @@ export default function Home() {
     "World History",
     "Computer Science",
     "Economics",
+  ];
+
+  const faqItems = [
+    {
+      question:
+        "What is Enlighten and how is it different from regular study apps?",
+      answer:
+        "Enlighten is a short-form learning feed designed to feel familiar and fast like the platforms students already use, but every scroll is focused on understanding real concepts across core subjects.",
+    },
+    {
+      question: "What educational background do I need?",
+      answer:
+        "We support a wide range of academic levels, from elementary to college. Each concept is broken down into short, engaging pieces that anyone can understand, regardless of their starting point.",
+    },
+    {
+      question: "Can I upload my own content on Enlighten?",
+      answer:
+        "Of course! We encourage users to create and share their own educational content. Whether it's a quick explanation of a concept, a helpful study tip, or a mini-lesson, you can contribute to the community and help others learn.",
+    },
+    {
+      question: "What subjects can I explore on the platform?",
+      answer:
+        "You can learn a wide range of subjects from basic arithmetic to advanced chemistry, with a mix of other intreasting fun facts and concepts across various fields. We cover core academic subjects as well as interdisciplinary topics to help you see how different areas of knowledge connect.",
+    },
   ];
 
   const runHeroIntro = useCallback(
@@ -463,64 +488,86 @@ export default function Home() {
 
       <div
         ref={lowerTextRef}
-        className="mt-3 sm:mt-4 mx-auto grid grid-cols-1 lg:grid-cols-[1.6fr_1fr] gap-3 sm:gap-4 md:gap-5 w-full"
+        className="mt-3 sm:mt-4 mx-auto w-full space-y-3 sm:space-y-4"
       >
+        <div className="grid grid-cols-1 lg:grid-cols-[1.6fr_1fr] gap-3 sm:gap-4 md:gap-5 w-full">
+          <section
+            id="core-subjects"
+            aria-labelledby="subjects-heading"
+            className="relative overflow-hidden scroll-mt-28 rounded-[2.25rem] sm:rounded-[3rem] bg-[#d5c8e6] px-5 sm:px-8 py-8 sm:py-10 min-h-[420px] sm:min-h-[560px] lg:min-h-[670px] flex flex-col justify-start pt-6 sm:pt-8"
+          >
+            <div className="relative z-10 max-w-2xl">
+              <TypeInDropText
+                as="h2"
+                id="subjects-heading"
+                className="text-3xl sm:text-5xl md:text-4xl lg:text-5xl font-semibold tracking-tight text-neutral-900 leading-[1.1] mb-4 sm:mb-6"
+              >
+                {"Core subjects you'll explore every day"}
+              </TypeInDropText>
+              <TypeInDropText className="text-base sm:text-xl md:text-2xl lg:text-[35px] text-neutral-800 leading-snug">
+                {
+                  "Deeper understanding comes from exploring key subjects and learning how they connect in real life. Nobody starts out mastering all of them, but every one of them can be learned. That's what Enlighten is for."
+                }
+              </TypeInDropText>
+              <ul className="sr-only">
+                {subjects.map((subject) => (
+                  <li key={subject}>{subject}</li>
+                ))}
+              </ul>
+            </div>
+
+            <SubjectPills subjects={subjects} className="z-20" />
+          </section>
+
+          <section
+            aria-labelledby="brain-rot-heading"
+            className="relative overflow-hidden rounded-[2.25rem] sm:rounded-[3rem] bg-[#d8d4cd] px-5 sm:px-8 pt-8 sm:pt-10 min-h-[520px] sm:min-h-[620px] lg:min-h-[670px]"
+          >
+            <div className="relative z-10 max-w-[260px] sm:max-w-[380px] md:max-w-[460px]">
+              <TypeInDropText
+                as="h2"
+                id="brain-rot-heading"
+                className="text-3xl sm:text-5xl md:text-4xl lg:text-5xl font-semibold tracking-tight text-neutral-900 leading-[1.05] mb-4 sm:mb-6"
+              >
+                {"The antidote to brain rot"}
+              </TypeInDropText>
+              <TypeInDropText className="text-base sm:text-xl md:text-2xl lg:text-[35px] text-neutral-800 leading-snug">
+                {
+                  "Enlighten brings ideas that actively engage your brain, and helps you learn by simplifying what others overcomplicate."
+                }
+              </TypeInDropText>
+            </div>
+
+            <div className="absolute -bottom-[20%] -right-[34%] sm:-bottom-[28%] sm:-right-[24%] md:-bottom-[26%] md:-right-[14%] lg:-bottom-[34%] lg:-right-[24%] w-[92%] sm:w-[84%] md:w-[68%] lg:w-[78%] aspect-square rounded-full bg-[#f09470]" />
+            <Image
+              src="/images/phone.png"
+              alt="Enlighten app on phone"
+              width={900}
+              height={1300}
+              className="pointer-events-none absolute -bottom-4 right-[-24%] sm:-bottom-8 sm:right-[-20%] md:-bottom-8 md:right-[-12%] lg:-bottom-10 lg:right-[-18%] z-20 w-[82%] sm:w-[78%] md:w-[62%] lg:w-[74%] object-contain"
+              priority
+            />
+          </section>
+        </div>
+
         <section
-          id="core-subjects"
-          aria-labelledby="subjects-heading"
-          className="relative overflow-hidden scroll-mt-28 rounded-[2.25rem] sm:rounded-[3rem] bg-[#d5c8e6] px-5 sm:px-8 py-8 sm:py-10 min-h-[420px] sm:min-h-[560px] lg:min-h-[670px] flex flex-col justify-start pt-6 sm:pt-8"
+          id="faq"
+          aria-labelledby="faq-heading"
+          className="rounded-[2.25rem] sm:rounded-[3rem] bg-[#c7d5b7] px-5 py-8 sm:px-8 sm:py-10"
         >
-          <div className="relative z-10 max-w-2xl">
-            <TypeInDropText
-              as="h2"
-              id="subjects-heading"
-              className="text-3xl sm:text-5xl md:text-4xl lg:text-5xl font-semibold tracking-tight text-neutral-900 leading-[1.1] mb-4 sm:mb-6"
-            >
-              {"Core subjects you'll explore every day"}
-            </TypeInDropText>
-            <TypeInDropText className="text-base sm:text-xl md:text-2xl lg:text-[35px] text-neutral-800 leading-snug">
-              {
-                "Deep understanding comes from exploring key subjects and learning how they connect in real life. Nobody starts out mastering all of them, but every one of them can be learned. That's what Enlighten is for."
-              }
-            </TypeInDropText>
-            <ul className="sr-only">
-              {subjects.map((subject) => (
-                <li key={subject}>{subject}</li>
-              ))}
-            </ul>
+          <div className="grid grid-cols-1 gap-7 sm:gap-8 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:gap-10 xl:gap-14">
+            <div className="lg:pt-2">
+              <TypeInDropText
+                as="h2"
+                id="faq-heading"
+                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold tracking-tight text-neutral-900 leading-[1.02]"
+              >
+                {"Frequently Asked Questions"}
+              </TypeInDropText>
+            </div>
+
+            <FaqAccordion items={faqItems} className="lg:mt-1" />
           </div>
-
-          <SubjectPills subjects={subjects} className="z-20" />
-        </section>
-
-        <section
-          aria-labelledby="brain-rot-heading"
-          className="relative overflow-hidden rounded-[2.25rem] sm:rounded-[3rem] bg-[#d8d4cd] px-5 sm:px-8 pt-8 sm:pt-10 min-h-[520px] sm:min-h-[620px] lg:min-h-[670px]"
-        >
-          <div className="relative z-10 max-w-[260px] sm:max-w-[380px] md:max-w-[460px]">
-            <TypeInDropText
-              as="h2"
-              id="brain-rot-heading"
-              className="text-3xl sm:text-5xl md:text-4xl lg:text-5xl font-semibold tracking-tight text-neutral-900 leading-[1.05] mb-4 sm:mb-6"
-            >
-              {"The antidote to brain rot"}
-            </TypeInDropText>
-            <TypeInDropText className="text-base sm:text-xl md:text-2xl lg:text-[35px] text-neutral-800 leading-snug">
-              {
-                "Enlighten brings ideas that actively engage your brain, and helps you learn by simplifying what others overcomplicate."
-              }
-            </TypeInDropText>
-          </div>
-
-          <div className="absolute -bottom-[20%] -right-[34%] sm:-bottom-[28%] sm:-right-[24%] md:-bottom-[26%] md:-right-[14%] lg:-bottom-[34%] lg:-right-[24%] w-[92%] sm:w-[84%] md:w-[68%] lg:w-[78%] aspect-square rounded-full bg-[#f09470]" />
-          <Image
-            src="/images/phone.png"
-            alt="Enlighten app on phone"
-            width={900}
-            height={1300}
-            className="pointer-events-none absolute -bottom-4 right-[-24%] sm:-bottom-8 sm:right-[-20%] md:-bottom-8 md:right-[-12%] lg:-bottom-10 lg:right-[-18%] z-20 w-[82%] sm:w-[78%] md:w-[62%] lg:w-[74%] object-contain"
-            priority
-          />
         </section>
       </div>
     </div>
