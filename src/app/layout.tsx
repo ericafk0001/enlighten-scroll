@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Chivo } from "next/font/google";
 import Navbar from "@/components/Navbar";
+import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 
@@ -29,9 +30,11 @@ export default function RootLayout({
           Skip to main content
         </a>
         <Navbar />
-        <main id="main-content" tabIndex={-1}>
-          {children}
-        </main>
+        <SmoothScrollProvider>
+          <main id="main-content" tabIndex={-1} data-scroll-section>
+            {children}
+          </main>
+        </SmoothScrollProvider>
       </body>
     </html>
   );
