@@ -8,6 +8,11 @@ import { useCallback, useEffect, useState } from "react";
 
 export default function Navbar() {
   const pathname = usePathname();
+
+  if (pathname.startsWith("/gallery")) {
+    return null;
+  }
+
   const [canRevealOnHome, setCanRevealOnHome] = useState(pathname !== "/");
 
   useEffect(() => {

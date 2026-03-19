@@ -16,6 +16,7 @@ import LocomotiveScroll, {
 import type { LenisOptions } from "lenis";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { usePathname } from "next/navigation";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -42,6 +43,8 @@ export function SmoothScrollProvider({
   children,
   options,
 }: SmoothScrollProviderProps) {
+  const pathname = usePathname();
+  const disableSmoothScroll = pathname.startsWith("/gallery");
   const [scroll, setScroll] = useState<LocomotiveScroll | null>(null);
   const [isReady, setIsReady] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -61,6 +64,17 @@ export function SmoothScrollProvider({
   );
 
   useEffect(() => {
+    if (disableSmoothScroll) {
+      document.documentElement.classList.remove(
+        "has-scroll-smooth",
+        "has-scroll-dragging",
+      );
+      document.body.style.removeProperty("height");
+      setScroll(null);
+      setIsReady(true);
+      return;
+    }
+
     const container = containerRef.current;
     if (!container) return;
 
@@ -193,7 +207,15 @@ export function SmoothScrollProvider({
       setScroll(null);
       setIsReady(false);
     };
-  }, [baseLenisOptions, options]);
+  }, [baseLenisOptions, disableSmoothScroll, options]);
+
+  if (disableSmoothScroll) {
+    return (
+      <SmoothScrollContext.Provider value={{ scroll: null, isReady: true }}>
+        {children}
+      </SmoothScrollContext.Provider>
+    );
+  }
 
   return (
     <SmoothScrollContext.Provider value={{ scroll, isReady }}>
