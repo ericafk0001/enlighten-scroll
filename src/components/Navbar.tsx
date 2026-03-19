@@ -3,8 +3,20 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useGSAP } from "@/hooks/useGSAP";
+import { usePathname } from "next/navigation";
+import GalleryNavbar from "@/components/GalleryNavbar";
 
 export default function Navbar() {
+  const pathname = usePathname();
+
+  if (pathname === "/gallery") {
+    return <GalleryNavbar />;
+  }
+
+  return <AnimatedNavbar />;
+}
+
+function AnimatedNavbar() {
   const navRef = useGSAP<HTMLElement>((element, gsap) => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       gsap.set(element, { y: 0 });
@@ -74,7 +86,7 @@ export default function Navbar() {
           </li>
         </ul>
         <Link
-          href="/#why-enlighten"
+          href="/gallery"
           className="min-w-15 shrink-0 whitespace-nowrap rounded-full border border-white/60 bg-white/65 px-3 py-2 text-sm font-medium text-neutral-950 backdrop-blur-md transition-colors hover:bg-white/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900 focus-visible:ring-offset-2 md:min-w-20 md:px-4 md:text-[18px]"
         >
           Try Now
